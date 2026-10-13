@@ -117,10 +117,68 @@
   }
   @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 
+  /* Pro */
+  .pro-tag { display: inline-block; font-size: 0.7rem; font-weight: 800; color: var(--seal); border: 1.5px solid var(--seal);
+             border-radius: 6px; padding: 0 5px; margin-left: 6px; vertical-align: 1px; letter-spacing: 0.02em; }
+  .locked { position: relative; }
+  .locked .f, .locked .lock-body { opacity: .45; pointer-events: none; }
+  .lock-note { font-size: 0.82rem; color: var(--ink-2); margin: 2px 0 8px; }
+  .lock-note button { font: inherit; font-weight: 700; color: var(--seal); background: none; border: 0; padding: 0; cursor: pointer; text-decoration: underline; }
+  .client-pick { display: flex; gap: 8px; align-items: end; margin-bottom: 10px; }
+  .client-pick .f { flex: 1; margin: 0; }
+  .btn.small { padding: 9px 12px; font-size: 0.85rem; }
+  .paper .logo { position: absolute; top: 30px; left: 44px; max-height: 54px; max-width: 150px; }
+  .paper.has-logo #p_lugar { margin-top: 44px; }
+
+  .mine { display: grid; gap: 22px; }
+  .sumrow { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+  .sum { background: var(--paper); border-radius: 12px; padding: 16px 18px; }
+  .sum .k { font-size: 0.85rem; color: var(--ink-2); }
+  .sum .v { font-size: 1.6rem; font-weight: 800; letter-spacing: -0.02em; margin-top: 2px; font-variant-numeric: tabular-nums; }
+  .sum .v.seal { color: var(--seal); }
+  .panel { background: var(--paper); border-radius: 12px; padding: 18px 20px; }
+  .panel h2 { font-size: 1.05rem; margin: 0 0 10px; }
+  table.hist { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+  table.hist th { text-align: left; font-size: 0.8rem; color: var(--ink-3); font-weight: 600; padding: 6px 8px 6px 0; border-bottom: 1px solid var(--rule); }
+  table.hist td { padding: 9px 8px 9px 0; border-bottom: 1px solid #EEF1F5; vertical-align: middle; }
+  table.hist td.num { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; }
+  table.hist .acts { white-space: nowrap; text-align: right; }
+  table.hist .acts button { font: inherit; font-size: 0.82rem; font-weight: 600; color: var(--pen); background: none; border: 0; cursor: pointer; padding: 2px 4px; }
+  .empty-hist { color: var(--ink-3); font-size: 0.92rem; padding: 6px 0; }
+  .tools { display: flex; gap: 10px; flex-wrap: wrap; }
+
+  .pitch { background: var(--paper); border-radius: 16px; padding: 30px 32px; display: grid; grid-template-columns: 1.2fr 1fr; gap: 30px; align-items: start; }
+  .pitch h2 { font-size: clamp(1.4rem, 2.6vw, 1.9rem); line-height: 1.12; letter-spacing: -0.02em; margin: 0 0 10px; }
+  .pitch p { color: var(--ink-2); margin: 0 0 14px; }
+  .pitch ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 9px; }
+  .pitch li { padding-left: 26px; position: relative; }
+  .pitch li::before { content: ""; position: absolute; left: 2px; top: 6px; width: 12px; height: 7px; border-left: 2.5px solid var(--seal);
+                      border-bottom: 2.5px solid var(--seal); transform: rotate(-45deg); }
+  .price { border: 1.5px solid var(--rule); border-radius: 14px; padding: 20px 22px; }
+  .price .amt { font-size: 2.2rem; font-weight: 800; letter-spacing: -0.02em; }
+  .price .amt small { font-size: 1rem; font-weight: 600; color: var(--ink-2); }
+  .price .alt { color: var(--ink-2); font-size: 0.9rem; margin: 2px 0 16px; }
+  .price .btn { width: 100%; }
+  .price .fine { font-size: 0.8rem; color: var(--ink-3); margin-top: 10px; }
+  .pro-status { font-size: 0.85rem; color: var(--seal); font-weight: 700; }
+  @media (max-width: 900px) { .sumrow { grid-template-columns: 1fr; } .pitch { grid-template-columns: 1fr; padding: 22px; } }
+  .mine > *, .view { min-width: 0; }
+  .mnum { display: none; } @media (max-width: 600px) { .mnum { display: inline; } }
+  @media (max-width: 600px) {
+    .sumrow { grid-template-columns: 1fr 1fr; } .sumrow .sum:first-child { grid-column: 1 / -1; }
+    #hist_wrap table.hist thead { display: none; }
+    #hist_wrap table.hist tr { display: grid; grid-template-columns: 1fr auto; gap: 2px 12px; padding: 12px 0; border-bottom: 1px solid #EEF1F5; }
+    #hist_wrap table.hist td { border: 0; padding: 0; }
+    #hist_wrap table.hist td:nth-child(1) { display: none; }
+    #hist_wrap table.hist td:nth-child(2) { grid-column: 1 / -1; font-size: 0.8rem; color: var(--ink-3); order: -1; }
+    #hist_wrap table.hist td:nth-child(3) { font-weight: 600; }
+    #hist_wrap table.hist .acts { grid-column: 1 / -1; text-align: left; margin-left: -4px; }
+  }
+
   @media print {
     @page { size: letter; margin: 0; }
     body { background: #fff; }
-    header.top, .intro, form, .actions, footer, #view-ss, .tabs { display: none !important; }
+    header.top, .intro, form, .actions, footer, #view-ss, #view-mine, .tabs { display: none !important; }
     main, .grid { display: block; padding: 0; margin: 0; max-width: none; }
     .desk { position: static; }
     .paper { box-shadow: none; border-radius: 0; aspect-ratio: auto; width: 8.5in; max-width: none; min-height: 11in; padding: 0.9in 0.9in; font-size: 12.5pt; }
@@ -134,6 +192,7 @@
   <a class="brand" href="./">Cuenta <b>Clara</b></a>
   <nav class="tabs" role="tablist" aria-label="Herramientas">
     <button role="tab" id="tab-cc" aria-controls="view-cc" aria-selected="true">Cuenta de cobro</button>
+    <button role="tab" id="tab-mine" aria-controls="view-mine" aria-selected="false">Mis cuentas</button>
     <button role="tab" id="tab-ss" aria-controls="view-ss" aria-selected="false">Seguridad social</button>
   </nav>
 </header>
@@ -145,6 +204,11 @@
 <section class="intro" id="intro-ss" hidden>
   <h1>Cuánto pagas de salud, pensión y ARL este mes como independiente.</h1>
   <p>Con el salario mínimo 2026 ($1.750.905) y las reglas vigentes para contratistas. Incluye el nuevo cotizante de tiempo parcial (tipo 76) que cotiza por semanas.</p>
+</section>
+
+<section class="intro" id="intro-mine" hidden>
+  <h1>Todo lo que has cobrado, en un solo lugar.</h1>
+  <p>Historial de tus cuentas de cobro, clientes guardados con su propio consecutivo y el total del año para tu declaración de renta.</p>
 </section>
 
 <main>
@@ -169,11 +233,23 @@
           <div class="f"><label for="b_num">N.º de cuenta</label><input id="b_num" name="b_num" inputmode="numeric" placeholder="123-456789-01"></div>
           <div class="f"><label for="b_tipo">Tipo</label><select id="b_tipo" name="b_tipo"><option>Ahorros</option><option>Corriente</option></select></div>
         </div>
+        <div class="pro-block" id="logo_block">
+          <div class="f"><label for="logo">Tu logo <span class="pro-tag">PRO</span></label><input id="logo" type="file" accept="image/*"></div>
+          <p class="lock-note" data-lock>El logo en la cuenta es parte de Pro. <button type="button" data-open-pro>Ver Pro</button></p>
+        </div>
         <div class="f"><label for="firma">Firma (imagen, opcional)</label><input id="firma" type="file" accept="image/*"><span class="hint">Una foto o escaneo de tu firma sobre fondo blanco.</span></div>
       </fieldset>
 
       <fieldset>
         <legend>A quién le cobras</legend>
+        <div class="pro-block" id="client_block">
+          <div class="client-pick">
+            <div class="f"><label for="c_pick">Clientes guardados <span class="pro-tag">PRO</span></label>
+              <select id="c_pick"><option value="">Nuevo cliente</option></select></div>
+            <button type="button" class="btn ghost small" id="btn-save-client">Guardar cliente</button>
+          </div>
+          <p class="lock-note" data-lock>Guarda varios clientes, cada uno con su consecutivo. <button type="button" data-open-pro>Ver Pro</button></p>
+        </div>
         <div class="f"><label for="c_nombre">Empresa o persona</label><input id="c_nombre" name="c_nombre" placeholder="Soluciones Andinas S.A.S."></div>
         <div class="row">
           <div class="f"><label for="c_nit">NIT o documento</label><input id="c_nit" name="c_nit" placeholder="900.123.456-7"></div>
@@ -205,6 +281,7 @@
 
     <div class="desk">
       <article class="paper" id="paper" aria-label="Vista previa de la cuenta de cobro">
+        <img class="logo" id="p_logo" alt="" hidden>
         <div class="stamp" aria-hidden="true"><div><small>CUENTA</small><span id="p_stamp">1</span><small>DE COBRO</small></div></div>
         <p id="p_lugar"></p>
         <p class="doc-title">CUENTA DE COBRO</p>
@@ -229,6 +306,59 @@
         </div>
       </article>
     </div>
+  </div>
+
+  <!-- ================= MIS CUENTAS (PRO) ================= -->
+  <div class="view" id="view-mine" role="tabpanel" aria-labelledby="tab-mine" hidden>
+    <section class="pitch" id="pitch">
+      <div>
+        <h2>Cuenta Clara Pro: deja de rehacer tu cuenta cada mes.</h2>
+        <p>Para quien cobra todos los meses, a uno o varios clientes.</p>
+        <ul>
+          <li>Historial de todas tus cuentas de cobro: ábrelas, duplícalas o vuelve a descargarlas.</li>
+          <li>Clientes guardados, cada uno con su propio consecutivo.</li>
+          <li>Tu logo en la cuenta de cobro.</li>
+          <li>Total facturado por año y por cliente, listo para tu declaración de renta.</li>
+          <li>Recordatorio mensual en tu calendario para hacer la cuenta y pagar la planilla.</li>
+          <li>Copia de seguridad de tus datos en un archivo, para pasarlos a otro equipo.</li>
+        </ul>
+      </div>
+      <div class="price">
+        <div class="amt">$12.900 <small>/ mes</small></div>
+        <div class="alt">o $99.000 al año (ahorras 36 %)</div>
+        <button type="button" class="btn primary" id="btn-trial">Probar Pro gratis 14 días</button>
+        <p class="fine">Sin tarjeta para la prueba. Lo básico de Cuenta Clara sigue siendo gratis.</p>
+        <div class="f" style="margin-top:14px"><label for="pro_key">¿Ya pagaste? Escribe tu clave de licencia</label>
+          <div style="display:flex;gap:8px"><input id="pro_key" placeholder="XXXX-XXXX-XXXX"><button type="button" class="btn ghost small" id="btn-key">Activar</button></div>
+          <span class="hint" id="key_msg"></span></div>
+      </div>
+    </section>
+
+    <section class="mine" id="mine" hidden>
+      <p class="pro-status" id="pro_status"></p>
+      <div class="sumrow">
+        <div class="sum"><div class="k" id="s_year_lbl">Facturado este año</div><div class="v seal" id="s_year">$0</div></div>
+        <div class="sum"><div class="k">Cuentas de cobro este año</div><div class="v" id="s_count">0</div></div>
+        <div class="sum"><div class="k">Cliente principal</div><div class="v" id="s_top" style="font-size:1.1rem;line-height:1.3">—</div></div>
+      </div>
+      <div class="panel">
+        <h2>Historial</h2>
+        <div id="hist_wrap"></div>
+      </div>
+      <div class="panel">
+        <h2>Por cliente este año</h2>
+        <div id="byclient_wrap"></div>
+      </div>
+      <div class="panel">
+        <h2>Herramientas</h2>
+        <div class="tools">
+          <button type="button" class="btn ghost" id="btn-ics">Agregar recordatorio mensual al calendario</button>
+          <button type="button" class="btn ghost" id="btn-export">Descargar copia de seguridad</button>
+          <label class="btn ghost" for="import_file" style="display:inline-block">Restaurar copia</label>
+          <input type="file" id="import_file" accept="application/json" hidden>
+        </div>
+      </div>
+    </section>
   </div>
 
   <!-- ================= SEGURIDAD SOCIAL ================= -->
@@ -285,16 +415,16 @@
   };
 
   /* ---------- tabs ---------- */
+  const HASH = { cc: "", mine: "#mis-cuentas", ss: "#seguridad-social" };
   function show(which) {
-    const cc = which === "cc";
-    $("tab-cc").setAttribute("aria-selected", cc); $("tab-ss").setAttribute("aria-selected", !cc);
-    $("view-cc").hidden = !cc; $("view-ss").hidden = cc;
-    $("intro-cc").hidden = !cc; $("intro-ss").hidden = cc;
-    if (location.hash !== (cc ? "" : "#seguridad-social")) history.replaceState(null, "", cc ? location.pathname : "#seguridad-social");
+    ["cc", "mine", "ss"].forEach((k) => {
+      $("tab-" + k).setAttribute("aria-selected", k === which);
+      $("view-" + k).hidden = k !== which; $("intro-" + k).hidden = k !== which;
+    });
+    if (which === "mine") renderMine();
+    history.replaceState(null, "", HASH[which] || location.pathname);
   }
-  $("tab-cc").addEventListener("click", () => show("cc"));
-  $("tab-ss").addEventListener("click", () => show("ss"));
-  if (location.hash === "#seguridad-social") show("ss");
+  ["cc", "mine", "ss"].forEach((k) => $("tab-" + k).addEventListener("click", () => show(k)));
 
   /* ---------- números a letras (pesos colombianos) ---------- */
   const U = ["", "un", "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "nueve", "diez", "once", "doce", "trece", "catorce",
@@ -394,6 +524,9 @@
     $("p_contacto").innerHTML = [v("e_dir"), v("e_tel"), v("e_mail")].filter(Boolean)
       .map((t) => '<span style="white-space:nowrap">' + t.replace(/[&<>"]/g, (ch) => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch])) + '</span>').join(" · ");
     if (firma) { $("p_firma").src = firma; $("p_firma").hidden = false; } else { $("p_firma").hidden = true; }
+    const showLogo = typeof logo === "string" && logo && proState().on;
+    $("p_logo").hidden = !showLogo; if (showLogo) $("p_logo").src = logo;
+    $("paper").classList.toggle("has-logo", !!showLogo);
   }
   function persist() {
     const o = {}; fields.forEach((k) => o[k] = $(k).value); checks.forEach((k) => o[k] = $(k).checked);
@@ -409,6 +542,7 @@
     r.readAsDataURL(f);
   });
   $("btn-pdf").addEventListener("click", () => {
+    recordCurrent();
     const title = document.title;
     document.title = `Cuenta de cobro ${$("n_num").value || 1} - ${$("e_nombre").value || ""}`.trim();
     window.print();
@@ -419,7 +553,146 @@
     $("n_fecha").value = new Date().toISOString().slice(0, 10);
     render(); persist(); $("n_valor").focus();
   });
-  render();
+
+  /* ---------- Pro ---------- */
+  const TRIAL_DAYS = 14;
+  function proState() {
+    const p = store.get("pro", {});
+    if (p.key) return { on: true, label: "Pro activo" };
+    if (p.trialStart) {
+      const left = Math.ceil(TRIAL_DAYS - (Date.now() - p.trialStart) / 864e5);
+      if (left > 0) return { on: true, label: `Prueba de Pro: te quedan ${left} día${left === 1 ? "" : "s"}` };
+      return { on: false, expired: true };
+    }
+    return { on: false };
+  }
+  function applyPro() {
+    const st = proState();
+    document.querySelectorAll(".pro-block").forEach((b) => b.classList.toggle("locked", !st.on));
+    document.querySelectorAll("[data-lock]").forEach((n) => n.hidden = st.on);
+    $("pitch").hidden = st.on; $("mine").hidden = !st.on;
+    $("pro_status").textContent = st.label || "";
+    if (st.expired) $("btn-trial").textContent = "Tu prueba terminó";
+    $("btn-trial").disabled = !!st.expired;
+    return st.on;
+  }
+  document.querySelectorAll("[data-open-pro]").forEach((b) => b.addEventListener("click", () => show("mine")));
+  $("btn-trial").addEventListener("click", () => {
+    const p = store.get("pro", {}); if (!p.trialStart) { p.trialStart = Date.now(); store.set("pro", p); }
+    applyPro(); renderMine(); refreshClients();
+  });
+  $("btn-key").addEventListener("click", () => {
+    // Payment provider not connected yet: keys are validated once checkout is live.
+    $("key_msg").textContent = "La activación con clave estará disponible muy pronto. Mientras tanto puedes usar la prueba gratis.";
+  });
+
+  /* clientes */
+  const clients = () => store.get("clients", []);
+  function refreshClients(selectId) {
+    const sel = $("c_pick"), cur = selectId !== undefined ? selectId : sel.value;
+    sel.innerHTML = '<option value="">Nuevo cliente</option>' + clients().map((c) =>
+      `<option value="${c.id}">${c.nombre.replace(/[<&]/g, "")}</option>`).join("");
+    sel.value = clients().some((c) => c.id === cur) ? cur : "";
+  }
+  $("c_pick").addEventListener("change", () => {
+    const c = clients().find((x) => x.id === $("c_pick").value);
+    if (c) { $("c_nombre").value = c.nombre; $("c_nit").value = c.nit || ""; $("c_ciudad").value = c.ciudad || ""; $("n_num").value = c.next || 1; }
+    else { $("c_nombre").value = ""; $("c_nit").value = ""; }
+    render(); persist();
+  });
+  $("btn-save-client").addEventListener("click", () => {
+    if (!proState().on) return show("mine");
+    const nombre = $("c_nombre").value.trim(); if (!nombre) { $("c_nombre").focus(); return; }
+    const list = clients(); let c = list.find((x) => x.id === $("c_pick").value) || list.find((x) => x.nombre.toLowerCase() === nombre.toLowerCase());
+    if (!c) { c = { id: "c" + Date.now().toString(36) }; list.push(c); }
+    Object.assign(c, { nombre, nit: $("c_nit").value.trim(), ciudad: $("c_ciudad").value.trim(), next: num($("n_num").value) || 1 });
+    store.set("clients", list); refreshClients(c.id);
+    $("saved").textContent = "Cliente guardado";
+  });
+
+  /* logo */
+  let logo = store.get("logo", "");
+  $("logo").addEventListener("change", (e) => {
+    if (!proState().on) { e.target.value = ""; return show("mine"); }
+    const f = e.target.files && e.target.files[0]; if (!f) return;
+    const r = new FileReader(); r.onload = () => { logo = r.result; store.set("logo", logo); render(); }; r.readAsDataURL(f);
+  });
+
+  /* historial: se guarda cada cuenta descargada (Pro) */
+  function recordCurrent() {
+    if (!proState().on) return;
+    const o = {}; fields.forEach((k) => o[k] = $(k).value); o.n_fecha = $("n_fecha").value;
+    const list = store.get("history", []);
+    const key = (o.c_nombre || "") + "|" + (o.n_num || "");
+    const i = list.findIndex((h) => h.key === key);
+    const rec = { key, num: o.n_num, fecha: o.n_fecha, cliente: o.c_nombre, valor: num(o.n_valor), concepto: o.n_concepto, data: o };
+    if (i >= 0) list[i] = rec; else list.unshift(rec);
+    store.set("history", list);
+    // avanza el consecutivo del cliente guardado
+    const cl = clients(), c = cl.find((x) => x.id === $("c_pick").value);
+    if (c) { c.next = (num(o.n_num) || 0) + 1; store.set("clients", cl); }
+  }
+  function loadRecord(rec, asNew) {
+    Object.entries(rec.data).forEach(([k, v]) => { if ($(k)) $(k).value = v; });
+    if (asNew) {
+      const c = clients().find((x) => x.nombre === rec.cliente);
+      $("n_num").value = c ? (c.next || 1) : (num(rec.num) || 0) + 1;
+      $("n_fecha").value = new Date().toISOString().slice(0, 10);
+    }
+    render(); persist(); show("cc");
+  }
+  function renderMine() {
+    if (!applyPro()) return;
+    const list = store.get("history", []);
+    const year = new Date().getFullYear();
+    const thisYear = list.filter((h) => (h.fecha || "").startsWith(String(year)));
+    const total = thisYear.reduce((a, h) => a + (h.valor || 0), 0);
+    $("s_year_lbl").textContent = `Facturado en ${year}`;
+    $("s_year").textContent = pesos(total);
+    $("s_count").textContent = thisYear.length;
+    const by = {}; thisYear.forEach((h) => { by[h.cliente || "Sin nombre"] = (by[h.cliente || "Sin nombre"] || 0) + (h.valor || 0); });
+    const ranked = Object.entries(by).sort((a, b) => b[1] - a[1]);
+    $("s_top").textContent = ranked.length ? ranked[0][0] : "—";
+    const esc = (t) => String(t || "").replace(/[&<>"]/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch]));
+    $("hist_wrap").innerHTML = list.length ? `<table class="hist"><thead><tr><th>N.º</th><th>Fecha</th><th>Cliente</th><th style="text-align:right">Valor</th><th></th></tr></thead><tbody>` +
+      list.map((h, i) => `<tr><td>${esc(h.num)}</td><td>${esc(fechaLarga(h.fecha))}<span class="mnum"> · N.º ${esc(h.num)}</span></td><td>${esc(h.cliente)}</td><td class="num">${pesos(h.valor || 0)}</td>
+        <td class="acts"><button type="button" data-open="${i}">Abrir</button><button type="button" data-dup="${i}">Duplicar para este mes</button></td></tr>`).join("") +
+      `</tbody></table>` : `<p class="empty-hist">Aún no hay cuentas. Cada vez que descargues una cuenta de cobro en PDF, quedará guardada aquí.</p>`;
+    $("byclient_wrap").innerHTML = ranked.length ? `<table class="hist"><tbody>` +
+      ranked.map(([n, v]) => `<tr><td>${esc(n)}</td><td class="num">${pesos(v)}</td></tr>`).join("") + `</tbody></table>`
+      : `<p class="empty-hist">Sin cuentas este año todavía.</p>`;
+    $("hist_wrap").querySelectorAll("[data-open]").forEach((b) => b.addEventListener("click", () => loadRecord(list[+b.dataset.open], false)));
+    $("hist_wrap").querySelectorAll("[data-dup]").forEach((b) => b.addEventListener("click", () => loadRecord(list[+b.dataset.dup], true)));
+  }
+  function download(name, mime, text) {
+    const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([text], { type: mime })); a.download = name;
+    document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+  }
+  $("btn-ics").addEventListener("click", () => {
+    const d = new Date(); const y = d.getFullYear(), m = String(d.getMonth() + 1).padStart(2, "0");
+    const ics = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Cuenta Clara//ES", "BEGIN:VEVENT",
+      "UID:cuentaclara-recordatorio@juferfelipe14.github.io", `DTSTAMP:${y}${m}01T120000Z`, `DTSTART;VALUE=DATE:${y}${m}25`,
+      "RRULE:FREQ=MONTHLY;BYMONTHDAY=25", "SUMMARY:Hacer la cuenta de cobro y pagar la planilla",
+      "DESCRIPTION:https://juferfelipe14.github.io/cuenta-clara/", "BEGIN:VALARM", "TRIGGER:PT9H", "ACTION:DISPLAY",
+      "DESCRIPTION:Cuenta de cobro", "END:VALARM", "END:VEVENT", "END:VCALENDAR"].join("\r\n");
+    download("recordatorio-cuenta-de-cobro.ics", "text/calendar", ics);
+  });
+  $("btn-export").addEventListener("click", () => {
+    const dump = { v: 1, cc: store.get("cc", {}), clients: clients(), history: store.get("history", []), logo: store.get("logo", ""), firma: store.get("firma", "") };
+    download("cuenta-clara-copia.json", "application/json", JSON.stringify(dump));
+  });
+  $("import_file").addEventListener("change", (e) => {
+    const f = e.target.files && e.target.files[0]; if (!f) return;
+    const r = new FileReader();
+    r.onload = () => {
+      try {
+        const d = JSON.parse(r.result);
+        ["cc", "clients", "history", "logo", "firma"].forEach((k) => { if (d[k] !== undefined) store.set(k, d[k]); });
+        location.reload();
+      } catch (err) { alert("Ese archivo no es una copia de Cuenta Clara."); }
+    };
+    r.readAsText(f);
+  });
 
   /* ---------- seguridad social ---------- */
   function fsp(ibc) {
@@ -477,6 +750,10 @@
   $("ss").addEventListener("input", calc); $("ss").addEventListener("change", calc);
   $("s_valor").addEventListener("blur", (e) => { const n = num(e.target.value); e.target.value = n ? n.toLocaleString("es-CO") : ""; });
   calc();
+  applyPro(); refreshClients(); render();
+  const fromHash = () => show(location.hash === "#mis-cuentas" ? "mine" : location.hash === "#seguridad-social" ? "ss" : "cc");
+  if (location.hash) fromHash();
+  window.addEventListener("hashchange", fromHash);
 })();
 </script>
 </body>
