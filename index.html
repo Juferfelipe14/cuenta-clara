@@ -1,0 +1,483 @@
+<!doctype html>
+<html lang="es-CO">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cuenta Clara — Cuenta de cobro y seguridad social para independientes</title>
+<meta name="description" content="Haz tu cuenta de cobro en PDF en un minuto y calcula cuánto pagas de salud, pensión y ARL como independiente en Colombia (2026). Gratis, sin registro.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1B2230;        /* texto */
+    --ink-2: #4A5468;
+    --ink-3: #7B8599;
+    --pen: #1F3A93;        /* tinta de bolígrafo */
+    --seal: #0F6B5C;       /* sello */
+    --paper: #FFFFFF;
+    --desk: #E9EDF3;       /* escritorio */
+    --rule: #CBD3DF;
+    --mark: #FFE27A;       /* resaltador */
+    --bad: #B42318;
+  }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--desk); color: var(--ink);
+         font-family: "Archivo", system-ui, -apple-system, "Segoe UI", sans-serif; font-size: 16px; line-height: 1.5; }
+  a { color: var(--pen); }
+  :focus-visible { outline: 3px solid var(--pen); outline-offset: 2px; }
+
+  header.top { max-width: 1180px; margin: 0 auto; padding: 22px 20px 6px; display: flex; align-items: baseline;
+               justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .brand { font-weight: 800; font-size: 1.15rem; letter-spacing: -0.01em; color: var(--ink); text-decoration: none; }
+  .brand b { color: var(--seal); }
+  .tabs { display: flex; gap: 4px; background: #DCE2EB; padding: 4px; border-radius: 12px; }
+  .tabs button { border: 0; background: none; font: inherit; font-weight: 600; font-size: 0.93rem; color: var(--ink-2);
+                 padding: 8px 14px; border-radius: 9px; cursor: pointer; }
+  .tabs button[aria-selected="true"] { background: var(--paper); color: var(--ink); box-shadow: 0 1px 3px rgba(27,34,48,.14); }
+
+  .intro { max-width: 1180px; margin: 0 auto; padding: 18px 20px 8px; }
+  .intro h1 { font-size: clamp(1.8rem, 3.6vw, 2.7rem); line-height: 1.08; letter-spacing: -0.025em; margin: 0; max-width: 18em; font-weight: 800; }
+  .intro p { margin: 10px 0 0; color: var(--ink-2); max-width: 40em; font-size: 1.05rem; }
+
+  main { max-width: 1180px; margin: 0 auto; padding: 18px 20px 40px; }
+  .view[hidden] { display: none !important; }
+  .grid { display: grid; grid-template-columns: minmax(0, 420px) minmax(0, 1fr); gap: 32px; align-items: start; }
+
+  /* form */
+  form fieldset { border: 0; margin: 0 0 22px; padding: 0; }
+  form legend { font-weight: 700; font-size: 1.02rem; margin-bottom: 8px; padding: 0; }
+  .f { display: grid; gap: 4px; margin-bottom: 10px; }
+  .f label { font-size: 0.86rem; font-weight: 600; color: var(--ink-2); }
+  .f input, .f select, .f textarea { font: inherit; font-size: 0.95rem; color: var(--ink); background: var(--paper);
+     border: 1px solid var(--rule); border-radius: 8px; padding: 9px 11px; width: 100%; }
+  .f textarea { min-height: 70px; resize: vertical; }
+  .f input:focus, .f select:focus, .f textarea:focus { border-color: var(--pen); outline: none; box-shadow: 0 0 0 3px rgba(31,58,147,.15); }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .row3 { display: grid; grid-template-columns: 1.2fr 1fr 0.7fr; gap: 10px; }
+  .check { display: flex; gap: 9px; align-items: flex-start; font-size: 0.9rem; color: var(--ink-2); margin: 6px 0; }
+  .check input { margin-top: 4px; accent-color: var(--seal); }
+  .hint { font-size: 0.8rem; color: var(--ink-3); }
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 6px; position: sticky; bottom: 0; background: var(--desk); padding: 10px 0; }
+  .btn { font: inherit; font-weight: 700; font-size: 0.95rem; border-radius: 10px; padding: 11px 18px; cursor: pointer; border: 1px solid transparent; }
+  .btn.primary { background: var(--seal); color: #fff; }
+  .btn.primary:hover { background: #0B5649; }
+  .btn.ghost { background: var(--paper); color: var(--ink); border-color: var(--rule); }
+  .btn.ghost:hover { border-color: var(--ink-3); }
+  .saved { font-size: 0.82rem; color: var(--ink-3); align-self: center; }
+
+  /* the paper */
+  .desk { position: sticky; top: 16px; display: flex; justify-content: center; }
+  .paper { background: var(--paper); color: #111; font-family: "Courier Prime", "Courier New", monospace; font-size: 12.5px; line-height: 1.55; width: 100%; max-width: 600px;
+           padding: 40px 44px 36px; border-radius: 3px; position: relative; aspect-ratio: 8.5 / 11; overflow: hidden;
+           box-shadow: 0 1px 0 #d9dee7, 0 18px 40px -22px rgba(27,34,48,.45); }
+  .paper .doc-title { text-align: center; font-weight: 700; font-size: 17px; letter-spacing: 0.06em; margin: 0 0 2px; }
+  .paper .doc-no { text-align: center; margin: 0 0 22px; }
+  .paper p { margin: 0 0 12px; }
+  .paper .who { font-weight: 700; }
+  .paper .debe { text-align: center; margin: 18px 0 6px; font-weight: 700; letter-spacing: 0.04em; }
+  .paper .amount { text-align: center; font-size: 15px; margin: 0 0 4px; }
+  .paper .words { text-align: center; margin: 0 0 18px; }
+  .paper .words span { background: linear-gradient(transparent 12%, var(--mark) 12%, var(--mark) 88%, transparent 88%); padding: 0 2px;
+                       -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+  .paper .small { font-size: 12px; }
+  .paper .sign { margin-top: 26px; }
+  .paper .sign img { max-height: 60px; max-width: 200px; display: block; margin-bottom: -6px; }
+  .paper .sign .line { border-top: 1px solid #111; width: 240px; padding-top: 4px; }
+  .paper .empty { color: #A3ABB9; }
+  .stamp { position: absolute; top: 26px; right: 30px; width: 86px; height: 86px; border: 2.5px solid var(--seal); border-radius: 50%;
+           color: var(--seal); display: grid; place-items: center; text-align: center; transform: rotate(-11deg); opacity: .85;
+           font-family: "Archivo", sans-serif; font-weight: 800; line-height: 1.05; }
+  .stamp small { display: block; font-size: 9px; font-weight: 700; letter-spacing: 0.05em; }
+  .stamp span { font-size: 22px; }
+
+  /* seguridad social */
+  .calc { display: grid; grid-template-columns: minmax(0, 420px) minmax(0, 1fr); gap: 32px; align-items: start; }
+  .result { background: var(--paper); border-radius: 14px; padding: 26px 28px; box-shadow: 0 18px 40px -26px rgba(27,34,48,.4); }
+  .total { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; border-bottom: 2px solid var(--ink); padding-bottom: 12px; margin-bottom: 8px; }
+  .total .lbl { font-weight: 700; }
+  .total .val { font-size: clamp(2rem, 4vw, 2.6rem); font-weight: 800; letter-spacing: -0.02em; color: var(--seal); }
+  table.lines { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+  table.lines td { padding: 9px 0; border-bottom: 1px solid #E6EAF0; }
+  table.lines td:last-child { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; }
+  table.lines td .sub { display: block; font-size: 0.8rem; color: var(--ink-3); font-weight: 400; }
+  .note { margin-top: 16px; font-size: 0.88rem; color: var(--ink-2); }
+  .warn { margin-top: 12px; padding: 12px 14px; border-radius: 10px; background: #FFF4E5; color: #7A4A00; font-size: 0.9rem; }
+
+  footer { max-width: 1180px; margin: 0 auto; padding: 10px 20px 40px; color: var(--ink-3); font-size: 0.82rem; }
+
+  @media (max-width: 900px) {
+    .grid, .calc { grid-template-columns: 1fr; }
+    .desk { position: static; }
+    .paper { padding: 32px 26px; font-size: 12.5px; aspect-ratio: auto; min-height: 520px; }
+    .stamp { width: 70px; height: 70px; top: 16px; right: 16px; }
+    .stamp span { font-size: 18px; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+
+  @media print {
+    @page { size: letter; margin: 0; }
+    body { background: #fff; }
+    header.top, .intro, form, .actions, footer, #view-ss, .tabs { display: none !important; }
+    main, .grid { display: block; padding: 0; margin: 0; max-width: none; }
+    .desk { position: static; }
+    .paper { box-shadow: none; border-radius: 0; aspect-ratio: auto; width: 8.5in; max-width: none; min-height: 11in; padding: 0.9in 0.9in; font-size: 12.5pt; }
+    .stamp { opacity: 1; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <a class="brand" href="./">Cuenta <b>Clara</b></a>
+  <nav class="tabs" role="tablist" aria-label="Herramientas">
+    <button role="tab" id="tab-cc" aria-controls="view-cc" aria-selected="true">Cuenta de cobro</button>
+    <button role="tab" id="tab-ss" aria-controls="view-ss" aria-selected="false">Seguridad social</button>
+  </nav>
+</header>
+
+<section class="intro" id="intro-cc">
+  <h1>Tu cuenta de cobro lista en un minuto, con el valor en letras y el consecutivo al día.</h1>
+  <p>Llenas tus datos una vez; cada mes solo cambias el valor y el periodo. Se descarga en PDF, lista para enviar. Gratis y sin registro: tus datos se quedan en tu navegador.</p>
+</section>
+<section class="intro" id="intro-ss" hidden>
+  <h1>Cuánto pagas de salud, pensión y ARL este mes como independiente.</h1>
+  <p>Con el salario mínimo 2026 ($1.750.905) y las reglas vigentes para contratistas. Incluye el nuevo cotizante de tiempo parcial (tipo 76) que cotiza por semanas.</p>
+</section>
+
+<main>
+  <!-- ================= CUENTA DE COBRO ================= -->
+  <div class="view grid" id="view-cc" role="tabpanel" aria-labelledby="tab-cc">
+    <form id="cc" autocomplete="on" novalidate>
+      <fieldset>
+        <legend>Tus datos</legend>
+        <div class="f"><label for="e_nombre">Nombre completo</label><input id="e_nombre" name="e_nombre" placeholder="Laura Martínez Gómez"></div>
+        <div class="row">
+          <div class="f"><label for="e_tipo">Documento</label>
+            <select id="e_tipo" name="e_tipo"><option>C.C.</option><option>C.E.</option><option>NIT</option><option>Pasaporte</option><option>PPT</option></select></div>
+          <div class="f"><label for="e_doc">Número</label><input id="e_doc" name="e_doc" inputmode="numeric" placeholder="1.020.345.678"></div>
+        </div>
+        <div class="f"><label for="e_dir">Dirección</label><input id="e_dir" name="e_dir" placeholder="Calle 45 # 12-30, Bogotá"></div>
+        <div class="row">
+          <div class="f"><label for="e_tel">Teléfono</label><input id="e_tel" name="e_tel" inputmode="tel" placeholder="300 123 4567"></div>
+          <div class="f"><label for="e_mail">Correo</label><input id="e_mail" name="e_mail" type="email" placeholder="laura@correo.com"></div>
+        </div>
+        <div class="row3">
+          <div class="f"><label for="b_banco">Banco</label><input id="b_banco" name="b_banco" placeholder="Bancolombia"></div>
+          <div class="f"><label for="b_num">N.º de cuenta</label><input id="b_num" name="b_num" inputmode="numeric" placeholder="123-456789-01"></div>
+          <div class="f"><label for="b_tipo">Tipo</label><select id="b_tipo" name="b_tipo"><option>Ahorros</option><option>Corriente</option></select></div>
+        </div>
+        <div class="f"><label for="firma">Firma (imagen, opcional)</label><input id="firma" type="file" accept="image/*"><span class="hint">Una foto o escaneo de tu firma sobre fondo blanco.</span></div>
+      </fieldset>
+
+      <fieldset>
+        <legend>A quién le cobras</legend>
+        <div class="f"><label for="c_nombre">Empresa o persona</label><input id="c_nombre" name="c_nombre" placeholder="Soluciones Andinas S.A.S."></div>
+        <div class="row">
+          <div class="f"><label for="c_nit">NIT o documento</label><input id="c_nit" name="c_nit" placeholder="900.123.456-7"></div>
+          <div class="f"><label for="c_ciudad">Ciudad</label><input id="c_ciudad" name="c_ciudad" placeholder="Bogotá D.C."></div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Este cobro</legend>
+        <div class="row">
+          <div class="f"><label for="n_num">Consecutivo</label><input id="n_num" name="n_num" inputmode="numeric" value="1"></div>
+          <div class="f"><label for="n_fecha">Fecha</label><input id="n_fecha" name="n_fecha" type="date"></div>
+        </div>
+        <div class="f"><label for="n_valor">Valor a cobrar (COP)</label><input id="n_valor" name="n_valor" inputmode="numeric" placeholder="4.500.000"></div>
+        <div class="f"><label for="n_concepto">Por concepto de</label><textarea id="n_concepto" name="n_concepto" placeholder="Prestación de servicios profesionales de diseño gráfico, correspondientes al periodo del 1 al 31 de octubre de 2026."></textarea></div>
+        <div class="f"><label for="n_contrato">Contrato (opcional)</label><input id="n_contrato" name="n_contrato" placeholder="Contrato de prestación de servicios N.º 045-2026"></div>
+        <label class="check"><input type="checkbox" id="o_iva" checked> Incluir “No soy responsable de IVA”</label>
+        <label class="check"><input type="checkbox" id="o_383"> Declarar que no he contratado dos o más trabajadores (para la retención del art. 383 E.T.)</label>
+        <label class="check"><input type="checkbox" id="o_pila"> Mencionar la planilla de seguridad social pagada</label>
+        <div class="f" id="pila_wrap" hidden><label for="n_pila">N.º de planilla y periodo</label><input id="n_pila" name="n_pila" placeholder="Planilla 9876543210, periodo septiembre 2026"></div>
+      </fieldset>
+
+      <div class="actions">
+        <button type="button" class="btn primary" id="btn-pdf">Descargar PDF</button>
+        <button type="button" class="btn ghost" id="btn-next">Siguiente cuenta</button>
+        <span class="saved" id="saved" aria-live="polite"></span>
+      </div>
+    </form>
+
+    <div class="desk">
+      <article class="paper" id="paper" aria-label="Vista previa de la cuenta de cobro">
+        <div class="stamp" aria-hidden="true"><div><small>CUENTA</small><span id="p_stamp">1</span><small>DE COBRO</small></div></div>
+        <p id="p_lugar"></p>
+        <p class="doc-title">CUENTA DE COBRO</p>
+        <p class="doc-no">N.º <span id="p_num"></span></p>
+        <p class="who" id="p_cliente"></p>
+        <p id="p_cnit"></p>
+        <p class="debe">DEBE A:</p>
+        <p class="who" style="text-align:center;margin-bottom:2px" id="p_emisor"></p>
+        <p style="text-align:center" id="p_edoc"></p>
+        <p class="debe">LA SUMA DE:</p>
+        <p class="amount" id="p_valor"></p>
+        <p class="words"><span id="p_letras"></span></p>
+        <p><b>Por concepto de:</b> <span id="p_concepto"></span></p>
+        <p id="p_contrato"></p>
+        <p id="p_banco"></p>
+        <p class="small" id="p_iva"></p>
+        <p class="small" id="p_383"></p>
+        <p class="small" id="p_pila"></p>
+        <div class="sign">
+          <img id="p_firma" alt="" hidden>
+          <div class="line"><span id="p_firma_nombre"></span><br><span id="p_firma_doc"></span><br><span class="small" id="p_contacto"></span></div>
+        </div>
+      </article>
+    </div>
+  </div>
+
+  <!-- ================= SEGURIDAD SOCIAL ================= -->
+  <div class="view calc" id="view-ss" role="tabpanel" aria-labelledby="tab-ss" hidden>
+    <form id="ss" novalidate>
+      <fieldset>
+        <legend>Cómo trabajas</legend>
+        <div class="f"><label for="s_modo">Tipo de independiente</label>
+          <select id="s_modo">
+            <option value="psp">Contrato de prestación de servicios</option>
+            <option value="t76">Tiempo parcial, menos de 1 salario mínimo (tipo 76)</option>
+          </select></div>
+        <div class="f" id="w_valor"><label for="s_valor">Valor mensual del contrato, sin IVA (COP)</label><input id="s_valor" inputmode="numeric" placeholder="4.500.000">
+          <span class="hint">Si el contrato es por un valor total, divídelo entre los meses que dura.</span></div>
+        <div class="f" id="w_dias" hidden><label for="s_dias">Días que trabajaste en el mes</label><input id="s_dias" inputmode="numeric" placeholder="10"></div>
+        <div class="f"><label for="s_arl">Riesgo laboral (ARL)</label>
+          <select id="s_arl">
+            <option value="0.00522">Clase I — oficina, trabajo intelectual (0,522 %)</option>
+            <option value="0.01044">Clase II (1,044 %)</option>
+            <option value="0.02436">Clase III (2,436 %)</option>
+            <option value="0.0435">Clase IV (4,350 %)</option>
+            <option value="0.0696">Clase V — alto riesgo (6,960 %)</option>
+          </select></div>
+        <div class="f"><label for="s_ccf">Caja de compensación (voluntaria)</label>
+          <select id="s_ccf">
+            <option value="0">No</option>
+            <option value="0.006">Sí, 0,6 % (recreación y capacitación)</option>
+            <option value="0.02">Sí, 2 % (incluye subsidio de vivienda)</option>
+          </select></div>
+      </fieldset>
+    </form>
+
+    <section class="result" aria-live="polite">
+      <div class="total"><span class="lbl">Total a pagar este mes</span><span class="val" id="r_total">$0</span></div>
+      <table class="lines"><tbody id="r_lines"></tbody></table>
+      <div id="r_warn"></div>
+      <p class="note">Pagas mes vencido: lo de este mes se paga en los primeros días hábiles del mes siguiente, según los dos últimos dígitos de tu documento, en cualquier operador PILA (Aportes en Línea, Mi Planilla, SOI, etc.). Los valores se aproximan al múltiplo de $100 superior; tu operador puede variar unos pesos.</p>
+    </section>
+  </div>
+</main>
+
+<footer>
+  Cuenta Clara es una herramienta gratuita de referencia. No reemplaza la asesoría de un contador. Salario mínimo 2026: $1.750.905.
+</footer>
+
+<script>
+(function () {
+  "use strict";
+  const SMMLV = 1750905;
+  const $ = (id) => document.getElementById(id);
+  const store = {
+    get(k, d) { try { const v = localStorage.getItem("cuentaclara:" + k); return v === null ? d : JSON.parse(v); } catch (e) { return d; } },
+    set(k, v) { try { localStorage.setItem("cuentaclara:" + k, JSON.stringify(v)); return true; } catch (e) { return false; } }
+  };
+
+  /* ---------- tabs ---------- */
+  function show(which) {
+    const cc = which === "cc";
+    $("tab-cc").setAttribute("aria-selected", cc); $("tab-ss").setAttribute("aria-selected", !cc);
+    $("view-cc").hidden = !cc; $("view-ss").hidden = cc;
+    $("intro-cc").hidden = !cc; $("intro-ss").hidden = cc;
+    if (location.hash !== (cc ? "" : "#seguridad-social")) history.replaceState(null, "", cc ? location.pathname : "#seguridad-social");
+  }
+  $("tab-cc").addEventListener("click", () => show("cc"));
+  $("tab-ss").addEventListener("click", () => show("ss"));
+  if (location.hash === "#seguridad-social") show("ss");
+
+  /* ---------- números a letras (pesos colombianos) ---------- */
+  const U = ["", "un", "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "nueve", "diez", "once", "doce", "trece", "catorce",
+    "quince", "dieciséis", "diecisiete", "dieciocho", "diecinueve", "veinte", "veintiún", "veintidós", "veintitrés", "veinticuatro",
+    "veinticinco", "veintiséis", "veintisiete", "veintiocho", "veintinueve"];
+  const D = ["", "", "", "treinta", "cuarenta", "cincuenta", "sesenta", "setenta", "ochenta", "noventa"];
+  const C = ["", "ciento", "doscientos", "trescientos", "cuatrocientos", "quinientos", "seiscientos", "setecientos", "ochocientos", "novecientos"];
+  function hasta999(n) {
+    if (n === 0) return "";
+    if (n === 100) return "cien";
+    const c = Math.floor(n / 100), r = n % 100;
+    let s = C[c];
+    if (r) {
+      let t;
+      if (r < 30) t = U[r];
+      else { const d = Math.floor(r / 10), u = r % 10; t = D[d] + (u ? " y " + U[u] : ""); }
+      s = (s ? s + " " : "") + t;
+    }
+    return s;
+  }
+  function letras(n) {
+    n = Math.floor(n);
+    if (!n) return "cero";
+    const partes = [];
+    const milesDeMillones = Math.floor(n / 1e9); n %= 1e9;
+    const millones = Math.floor(n / 1e6) + milesDeMillones * 1000; n %= 1e6;
+    const miles = Math.floor(n / 1000), resto = n % 1000;
+    if (millones) {
+      if (millones === 1) partes.push("un millón");
+      else {
+        const mm = Math.floor(millones / 1000), m = millones % 1000;
+        let t = "";
+        if (mm) t += (mm === 1 ? "mil" : hasta999(mm) + " mil");
+        if (m) t += (t ? " " : "") + hasta999(m);
+        partes.push(t + " millones");
+      }
+    }
+    if (miles) partes.push(miles === 1 ? "mil" : hasta999(miles) + " mil");
+    if (resto) partes.push(hasta999(resto));
+    let s = partes.join(" ");
+    if (!resto && !miles && millones) s += " de";   // "un millón de pesos"
+    return s;
+  }
+  function enLetras(n) {
+    if (Math.floor(n) === 1) return "Un peso m/cte";
+    const t = letras(n);
+    return (t.charAt(0).toUpperCase() + t.slice(1) + " pesos m/cte").replace(/\s+/g, " ");
+  }
+  window.__enLetras = enLetras; // para pruebas
+
+  const num = (s) => { const v = parseInt(String(s || "").replace(/[^\d]/g, ""), 10); return isNaN(v) ? 0 : v; };
+  const pesos = (n) => "$" + Math.round(n).toLocaleString("es-CO");
+  const up100 = (n) => Math.ceil(n / 100) * 100;
+
+  /* ---------- cuenta de cobro ---------- */
+  const fields = ["e_nombre", "e_tipo", "e_doc", "e_dir", "e_tel", "e_mail", "b_banco", "b_num", "b_tipo", "c_nombre", "c_nit", "c_ciudad",
+                  "n_num", "n_valor", "n_concepto", "n_contrato", "n_pila"];
+  const checks = ["o_iva", "o_383", "o_pila"];
+  const saved = store.get("cc", {});
+  fields.forEach((k) => { if (saved[k] !== undefined) $(k).value = saved[k]; });
+  checks.forEach((k) => { if (saved[k] !== undefined) $(k).checked = saved[k]; });
+  if (!$("n_fecha").value) $("n_fecha").value = new Date().toISOString().slice(0, 10);
+  let firma = store.get("firma", "");
+
+  const MESES = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
+  function fechaLarga(iso) {
+    const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || ""); if (!m) return "";
+    return `${parseInt(m[3], 10)} de ${MESES[parseInt(m[2], 10) - 1]} de ${m[1]}`;
+  }
+  function put(id, text, placeholder) {
+    const el = $(id);
+    if (text) { el.textContent = text; el.classList.remove("empty"); }
+    else { el.textContent = placeholder || ""; el.classList.toggle("empty", !!placeholder); }
+  }
+  function render() {
+    const v = (k) => $(k).value.trim();
+    const n = v("n_num") || "1";
+    put("p_lugar", [v("c_ciudad"), fechaLarga(v("n_fecha"))].filter(Boolean).join(", "), "Ciudad, fecha");
+    put("p_num", n.padStart(3, "0"));
+    $("p_stamp").textContent = n;
+    put("p_cliente", v("c_nombre").toUpperCase(), "EMPRESA O PERSONA");
+    put("p_cnit", v("c_nit") ? "NIT/Doc. " + v("c_nit") : "", "NIT 000.000.000-0");
+    put("p_emisor", v("e_nombre").toUpperCase(), "TU NOMBRE");
+    put("p_edoc", v("e_doc") ? `${v("e_tipo")} ${v("e_doc")}` : "", "C.C. 0.000.000.000");
+    const val = num(v("n_valor"));
+    put("p_valor", val ? pesos(val) : "", "$0");
+    put("p_letras", val ? enLetras(val) : "", "Valor en letras");
+    put("p_concepto", v("n_concepto"), "Descripción del servicio y el periodo.");
+    put("p_contrato", v("n_contrato") ? "Referencia: " + v("n_contrato") + "." : "");
+    put("p_banco", v("b_num") ? `Favor consignar en la cuenta de ${v("b_tipo").toLowerCase()} N.º ${v("b_num")}${v("b_banco") ? " de " + v("b_banco") : ""}, a nombre de ${v("e_nombre") || "quien firma"}.` : "", "Datos de la cuenta bancaria.");
+    put("p_iva", $("o_iva").checked ? "No soy responsable del impuesto sobre las ventas (IVA)." : "");
+    put("p_383", $("o_383").checked ? "Para efectos de la retención en la fuente (art. 383 E.T.), declaro que no he contratado ni vinculado dos o más trabajadores asociados a mi actividad." : "");
+    $("pila_wrap").hidden = !$("o_pila").checked;
+    put("p_pila", $("o_pila").checked ? "Adjunto soporte de pago de aportes a seguridad social" + (v("n_pila") ? ": " + v("n_pila") + "." : ".") : "");
+    put("p_firma_nombre", v("e_nombre"), "Firma");
+    put("p_firma_doc", v("e_doc") ? `${v("e_tipo")} ${v("e_doc")}` : "");
+    $("p_contacto").innerHTML = [v("e_dir"), v("e_tel"), v("e_mail")].filter(Boolean)
+      .map((t) => '<span style="white-space:nowrap">' + t.replace(/[&<>"]/g, (ch) => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch])) + '</span>').join(" · ");
+    if (firma) { $("p_firma").src = firma; $("p_firma").hidden = false; } else { $("p_firma").hidden = true; }
+  }
+  function persist() {
+    const o = {}; fields.forEach((k) => o[k] = $(k).value); checks.forEach((k) => o[k] = $(k).checked);
+    $("saved").textContent = store.set("cc", o) ? "Guardado en este navegador" : "";
+  }
+  $("cc").addEventListener("input", () => { render(); persist(); });
+  $("cc").addEventListener("change", () => { render(); persist(); });
+  $("n_valor").addEventListener("blur", (e) => { const n = num(e.target.value); e.target.value = n ? n.toLocaleString("es-CO") : ""; render(); persist(); });
+  $("firma").addEventListener("change", (e) => {
+    const f = e.target.files && e.target.files[0]; if (!f) return;
+    const r = new FileReader();
+    r.onload = () => { firma = r.result; store.set("firma", firma); render(); };
+    r.readAsDataURL(f);
+  });
+  $("btn-pdf").addEventListener("click", () => {
+    const title = document.title;
+    document.title = `Cuenta de cobro ${$("n_num").value || 1} - ${$("e_nombre").value || ""}`.trim();
+    window.print();
+    document.title = title;
+  });
+  $("btn-next").addEventListener("click", () => {
+    $("n_num").value = (num($("n_num").value) || 0) + 1;
+    $("n_fecha").value = new Date().toISOString().slice(0, 10);
+    render(); persist(); $("n_valor").focus();
+  });
+  render();
+
+  /* ---------- seguridad social ---------- */
+  function fsp(ibc) {
+    const x = ibc / SMMLV;
+    if (x < 4) return 0; if (x < 16) return 0.01; if (x < 17) return 0.012; if (x < 18) return 0.014;
+    if (x < 19) return 0.016; if (x < 20) return 0.018; return 0.02;
+  }
+  function line(label, sub, val) {
+    return `<tr><td>${label}${sub ? `<span class="sub">${sub}</span>` : ""}</td><td>${pesos(val)}</td></tr>`;
+  }
+  function calc() {
+    const modo = $("s_modo").value;
+    $("w_valor").hidden = modo !== "psp"; $("w_dias").hidden = modo !== "t76";
+    const arl = parseFloat($("s_arl").value), ccf = parseFloat($("s_ccf").value);
+    let rows = "", total = 0, warn = "";
+    if (modo === "psp") {
+      const v = num($("s_valor").value);
+      if (!v) { $("r_total").textContent = "$0"; $("r_lines").innerHTML = line("Escribe el valor mensual de tu contrato", "", 0); $("r_warn").innerHTML = ""; return; }
+      if (v < SMMLV) {
+        $("r_total").textContent = "$0"; $("r_lines").innerHTML = "";
+        $("r_warn").innerHTML = `<div class="warn">Con ingresos por prestación de servicios menores a un salario mínimo (${pesos(SMMLV)}) no estás obligado a cotizar como independiente. Puedes hacerlo voluntariamente sobre un salario mínimo.</div>`;
+        return;
+      }
+      let ibc = Math.ceil(v * 0.4); let minNote = "";
+      if (ibc < SMMLV) { ibc = SMMLV; minNote = " (el 40 % da menos de un mínimo, así que se cotiza sobre el mínimo)"; }
+      if (ibc > 25 * SMMLV) ibc = 25 * SMMLV;
+      const s = up100(ibc * 0.125), p = up100(ibc * 0.16), a = up100(ibc * arl), f = fsp(ibc), fv = f ? up100(ibc * f) : 0, c = ccf ? up100(ibc * ccf) : 0;
+      rows += line("Base de cotización (IBC)", "40 % del valor mensual" + minNote, ibc);
+      rows += line("Salud", "12,5 %", s); rows += line("Pensión", "16 %", p);
+      if (fv) rows += line("Fondo de solidaridad pensional", (f * 100).toLocaleString("es-CO") + " % (IBC de 4 o más mínimos)", fv);
+      rows += line("ARL", (arl * 100).toLocaleString("es-CO", { maximumFractionDigits: 3 }) + " %", a);
+      if (c) rows += line("Caja de compensación", (ccf * 100).toLocaleString("es-CO") + " %", c);
+      total = s + p + fv + a + c;
+      // la primera fila es la base, no se suma
+    } else {
+      const dias = num($("s_dias").value);
+      if (!dias) { $("r_total").textContent = "$0"; $("r_lines").innerHTML = line("Escribe los días que trabajaste", "", 0); $("r_warn").innerHTML = ""; return; }
+      const semanas = dias <= 7 ? 1 : dias <= 14 ? 2 : dias <= 21 ? 3 : 4;
+      const ibcP = Math.ceil(semanas * SMMLV / 4);
+      const p = up100(ibcP * 0.16), a = up100(SMMLV * arl), c = ccf ? up100(ibcP * ccf) : 0;
+      rows += line("Semanas a cotizar", `${dias} día${dias === 1 ? "" : "s"} trabajado${dias === 1 ? "" : "s"} = ${semanas} semana${semanas === 1 ? "" : "s"}`, 0).replace(/<td>\$0<\/td>/, `<td>${semanas}</td>`);
+      rows += line("Pensión", `16 % sobre ${pesos(ibcP)}`, p);
+      rows += line("ARL", "mes completo sobre un salario mínimo", a);
+      if (c) rows += line("Caja de compensación", (ccf * 100).toLocaleString("es-CO") + " %", c);
+      total = p + a + c;
+      warn = `<div class="warn">En esta modalidad no pagas salud aparte: debes tener cobertura por el régimen subsidiado o como beneficiario. No aplica si tienes contrato de prestación de servicios, ni si ese mes ganas un salario mínimo o más (en ese caso cotizas como independiente normal).</div>`;
+    }
+    $("r_total").textContent = pesos(total);
+    $("r_lines").innerHTML = rows;
+    $("r_warn").innerHTML = warn;
+    store.set("ss", { modo, v: $("s_valor").value, d: $("s_dias").value, arl: $("s_arl").value, ccf: $("s_ccf").value });
+  }
+  const ss = store.get("ss", null);
+  if (ss) { $("s_modo").value = ss.modo; $("s_valor").value = ss.v || ""; $("s_dias").value = ss.d || ""; $("s_arl").value = ss.arl; $("s_ccf").value = ss.ccf; }
+  $("ss").addEventListener("input", calc); $("ss").addEventListener("change", calc);
+  $("s_valor").addEventListener("blur", (e) => { const n = num(e.target.value); e.target.value = n ? n.toLocaleString("es-CO") : ""; });
+  calc();
+})();
+</script>
+</body>
+</html>
