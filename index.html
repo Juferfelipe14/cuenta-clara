@@ -184,6 +184,8 @@
     .paper { box-shadow: none; border-radius: 0; aspect-ratio: auto; width: 8.5in; max-width: none; min-height: 11in; padding: 0.9in 0.9in; font-size: 12.5pt; }
     .stamp { opacity: 1; }
   }
+  footer .guides { margin-bottom: 10px; line-height: 1.9; }
+  @media print { footer .guides { display: none; } }
 </style>
 </head>
 <body>
@@ -267,7 +269,7 @@
         <div class="f"><label for="n_concepto">Por concepto de</label><textarea id="n_concepto" name="n_concepto" placeholder="Prestación de servicios profesionales de diseño gráfico, correspondientes al periodo del 1 al 31 de octubre de 2026."></textarea></div>
         <div class="f"><label for="n_contrato">Contrato (opcional)</label><input id="n_contrato" name="n_contrato" placeholder="Contrato de prestación de servicios N.º 045-2026"></div>
         <label class="check"><input type="checkbox" id="o_iva" checked> Incluir “No soy responsable de IVA”</label>
-        <label class="check"><input type="checkbox" id="o_383"> Declarar que no he contratado dos o más trabajadores (para la retención del art. 383 E.T.)</label>
+        <label class="check"><input type="checkbox" id="o_383"> Declarar que no tomaré costos ni deducciones (para que la retención se calcule con la tabla del art. 383 E.T.)</label>
         <label class="check"><input type="checkbox" id="o_pila"> Mencionar la planilla de seguridad social pagada</label>
         <div class="f" id="pila_wrap" hidden><label for="n_pila">N.º de planilla y periodo</label><input id="n_pila" name="n_pila" placeholder="Planilla 9876543210, periodo septiembre 2026"></div>
       </fieldset>
@@ -401,6 +403,7 @@
 </main>
 
 <footer>
+  <nav class="guides" aria-label="Guías"><b>Guías:</b> <a href="guias/modelo-cuenta-de-cobro.html">Modelo de cuenta de cobro 2026</a> · <a href="guias/como-hacer-una-cuenta-de-cobro.html">Cómo hacer una cuenta de cobro</a> · <a href="guias/seguridad-social-independientes-2026.html">Seguridad social independientes 2026</a> · <a href="guias/cotizacion-por-semanas-tipo-76.html">Cotización por semanas (tipo 76)</a> · <a href="guias/como-pagar-planilla-pila-independiente.html">Cómo pagar la PILA</a></nav>
   Cuenta Clara es una herramienta gratuita de referencia. No reemplaza la asesoría de un contador. Salario mínimo 2026: $1.750.905.
 </footer>
 
@@ -516,7 +519,7 @@
     put("p_contrato", v("n_contrato") ? "Referencia: " + v("n_contrato") + "." : "");
     put("p_banco", v("b_num") ? `Favor consignar en la cuenta de ${v("b_tipo").toLowerCase()} N.º ${v("b_num")}${v("b_banco") ? " de " + v("b_banco") : ""}, a nombre de ${v("e_nombre") || "quien firma"}.` : "", "Datos de la cuenta bancaria.");
     put("p_iva", $("o_iva").checked ? "No soy responsable del impuesto sobre las ventas (IVA)." : "");
-    put("p_383", $("o_383").checked ? "Para efectos de la retención en la fuente (art. 383 E.T.), declaro que no he contratado ni vinculado dos o más trabajadores asociados a mi actividad." : "");
+    put("p_383", $("o_383").checked ? "Para efectos de la retención en la fuente, declaro bajo la gravedad de juramento que no tomaré costos ni deducciones asociados a estas rentas de trabajo, por lo que solicito aplicar la tabla del artículo 383 del Estatuto Tributario." : "");
     $("pila_wrap").hidden = !$("o_pila").checked;
     put("p_pila", $("o_pila").checked ? "Adjunto soporte de pago de aportes a seguridad social" + (v("n_pila") ? ": " + v("n_pila") + "." : ".") : "");
     put("p_firma_nombre", v("e_nombre"), "Firma");
